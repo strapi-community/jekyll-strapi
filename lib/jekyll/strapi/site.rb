@@ -28,7 +28,7 @@ module Jekyll
       url = Jekyll::URL.new(
         :template => @config['strapi']['collections'][collection]['permalink'],
         :placeholders => {
-          :id => document.id,
+          :id => document.id.to_s,
           :uid => document.uid,
           :slug => document.slug,
           :type => document.type
