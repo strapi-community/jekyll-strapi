@@ -19,15 +19,11 @@ module Jekyll
 
       def each
         # Initialize the HTTP query
-        endpoint = URI.parse(@site.endpoint)
-        uri = URI::HTTP.build({:host => endpoint.host,
-                               :port => endpoint.port,
-                               :path => "/#{@config['type'] || @collection_name}",
-                               :query => "_limit=10000"})
-
+        path = "/#{@config['type'] || @collection_name}?_limit=10000"
+        uri = URI("#{@site.endpoint}#{path}")
+        Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
         # Get entries
         response = Net::HTTP.get_response(uri)
-
         # Check response code
         if response.code == "200"
           result = JSON.parse(response.body, object_class: OpenStruct)
