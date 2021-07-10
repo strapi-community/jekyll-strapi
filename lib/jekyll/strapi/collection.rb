@@ -21,6 +21,10 @@ module Jekyll
         # Initialize the HTTP query
         path = "/#{@config['type'] || @collection_name}?_limit=10000"
         uri = URI("#{@site.endpoint}#{path}")
+        if @config['query']
+          uri += @config['query']
+          p uri
+        end
         Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
         # Get entries
         response = Net::HTTP.get_response(uri)
