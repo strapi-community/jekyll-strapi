@@ -34,14 +34,26 @@ module Jekyll
         end
 
         # Add necessary properties
-        result.each do |document|
-          document.type = collection_name
-          document.collection = collection_name
-          document.id ||= document._id
-          document.url = @site.strapi_link_resolver(collection_name, document)
-        end
+        case @config["api_version"]
+        when "v4"
+          result.data.each do |document|
+            document.type = collection_name
+            document.collection = collection_name
+            document.id ||= document._id
+            document.url = @site.strapi_link_resolver(collection_name, document)
+          end
 
-        result.each {|x| yield(x)}
+          result.data.each {|x| yield(x)}
+        else
+          result.each do |document|
+            document.type = collection_name
+            document.collection = collection_name
+            document.id ||= document._id
+            document.url = @site.strapi_link_resolver(collection_name, document)
+          end
+
+          result.each {|x| yield(x)}
+        end
       end
     end
   end

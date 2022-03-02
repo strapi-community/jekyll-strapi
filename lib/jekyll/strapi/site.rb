@@ -7,7 +7,7 @@ module Jekyll
 
     def strapi_collections
       return Array.new unless has_strapi_collections?
-      @strapi_collections ||= Hash[@config['strapi']['collections'].map {|name, config| [name, Strapi::StrapiCollection.new(self, name, config)]}]
+      @strapi_collections ||= Hash[@config['strapi']['collections'].map {|name, config| [name, Strapi::StrapiCollection.new(self, name, config.merge("api_version" => @config['strapi']['api_version']))]} ]
     end
 
     def has_strapi?
