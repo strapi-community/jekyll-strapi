@@ -17,9 +17,12 @@ module Jekyll
         @config['output'] || false
       end
 
+      def path
+        "/#{@config['type'] || @collection_name}?_limit=10000"
+      end
+
       def each
         # Initialize the HTTP query
-        path = "/#{@config['type'] || @collection_name}?_limit=10000"
         uri = URI("#{@site.endpoint}#{path}")
         Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
         # Get entries
@@ -34,14 +37,26 @@ module Jekyll
         end
 
         # Add necessary properties
-        result.each do |document|
-          document.type = collection_name
-          document.collection = collection_name
-          document.id ||= document._id
-          document.url = @site.strapi_link_resolver(collection_name, document)
-        end
+        case @config["api_version"]
+        when "v4"
+          result.data.each do |document|
+            document.type = collection_name
+            document.collection = collection_name
+            document.id ||= document._id
+            document.url = @site.strapi_link_resolver(collection_name, document)
+          end
 
-        result.each {|x| yield(x)}
+          result.data.each {|x| yield(x)}
+        else
+          result.each do |document|
+            document.type = collection_name
+            document.collection = collection_name
+            document.id ||= document._id
+            document.url = @site.strapi_link_resolver(collection_name, document)
+          end
+
+          result.each {|x| yield(x)}
+        end
       end
     end
   end
