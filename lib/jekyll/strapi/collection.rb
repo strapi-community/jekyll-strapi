@@ -19,7 +19,7 @@ module Jekyll
 
       def each
         # Initialize the HTTP query
-        path = "/#{@config['type'] || @collection_name}?_limit=10000"
+        path = "/#{@config['type'] || @collection_name}?populate=*&_limit=10000"
         uri = URI("#{@site.endpoint}#{path}")
         Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
         # Get entries
