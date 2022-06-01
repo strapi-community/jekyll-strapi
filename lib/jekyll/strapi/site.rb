@@ -30,8 +30,12 @@ module Jekyll
         :placeholders => {
           :id => document.id.to_s,
           :uid => document.uid,
-          :slug => document.slug,
-          :type => document.type
+          :slug => document.attributes.slug,
+          :type => document.type,
+          :date => document.attributes.date,
+          :title => document.attributes.title
+          # look inside jekyll _data folder
+          #:title => document.data,
         }
       )
 
