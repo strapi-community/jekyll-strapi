@@ -8,7 +8,7 @@ module Jekyll
         site.strapi_collections.each do |collection_name, collection|
           if collection.generate?
             collection.each do |document|
-              site.pages << StrapiPage.new(site, site.source, document, collection)
+              site.pages << StrapiPage.new(site, site.source, document.attributes, collection)
             end
           end
         end
