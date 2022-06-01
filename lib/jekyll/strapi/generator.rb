@@ -8,7 +8,7 @@ module Jekyll
         site.strapi_collections.each do |collection_name, collection|
           if collection.generate?
             collection.each do |document|
-              site.pages << StrapiPage.new(site, site.source, document.attributes, collection)
+              site.pages << StrapiPage.new(site, site.source, document, collection)
             end
           end
         end
@@ -38,7 +38,7 @@ module Jekyll
       end
 
       def url_placeholders
-        requiredValues = @document.to_h.select {|k, v|
+        requiredValues = @document.attributes.to_h.select {|k, v|
           v.class == String and @collection.config['permalink'].include? k.to_s
         }
 
