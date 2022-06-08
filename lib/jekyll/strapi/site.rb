@@ -24,14 +24,15 @@ module Jekyll
 
     def strapi_link_resolver(collection = nil, document = nil)
       return "/" unless collection != nil and @config['strapi']['collections'][collection]['permalink'] != nil
-
       url = Jekyll::URL.new(
         :template => @config['strapi']['collections'][collection]['permalink'],
         :placeholders => {
           :id => document.id.to_s,
           :uid => document.uid,
-          :slug => document.slug,
-          :type => document.type
+          :slug => document.attributes.slug,
+          :type => document.attributes.type,
+          :date => document.attributes.date,
+          :title => document.title
         }
       )
 

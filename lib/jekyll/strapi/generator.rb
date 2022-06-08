@@ -25,11 +25,10 @@ module Jekyll
         @dir = @collection.config['output_dir'] || collection.collection_name
         # Default file name, can be overwritten by permalink frontmatter setting
         @name = "#{document.id}.html"
+        filename_to_read = File.join(base, "_layouts"), @collection.config['layout']
 
         self.process(@name)
         self.read_yaml(File.join(base, "_layouts"), @collection.config['layout'])
-
-        # Use the permalink collection setting if it is set
         if @collection.config.key? 'permalink'
           self.data['permalink'] = @collection.config['permalink']
         end
@@ -38,11 +37,14 @@ module Jekyll
       end
 
       def url_placeholders
-        requiredValues = @document.to_h.select {|k, v|
-          v.class == String and @collection.config['permalink'].include? k.to_s
+        # This was not really providing :id for the mapping
+        # requiredValues = @document.strapi_attributes.to_h.select {|k, v|
+        #   v.class == String and @collection.config['permalink'].include? k.to_s
+        # }
+        my_hash =       {
+          :id       => @document.id.to_s,
         }
-
-        Utils.deep_merge_hashes(requiredValues, super)
+        Utils.deep_merge_hashes(my_hash, super)
       end
     end
   end
