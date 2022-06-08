@@ -24,7 +24,7 @@ strapi:
     # Collections, key is used to access in the strapi.collections
     # template variable
     collections:
-        # Example for a "articles" collection
+        # Example for a "Photo" collection
         photos:
             # Collection name (optional)
             # type: photos
