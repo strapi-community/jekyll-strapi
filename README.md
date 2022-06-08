@@ -39,10 +39,11 @@ strapi:
 This works for the following collection *Photo* in Strapi:
 
 ```
-| Name   | Type  |
-| Title  | Text  |
-| Image  | Media |
-| Comment | Text |
+| Name    | Type  |
+| ------- | ----- |
+| Title   | Text  |
+| Image   | Media |
+| Comment | Text  |
 ```
 
 ## Usage
