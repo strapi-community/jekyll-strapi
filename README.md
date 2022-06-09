@@ -1,4 +1,11 @@
-# jekyll-strapi
+# jekyll-strapi reboot
+
+## Features
+
+* Support for Strapi 4
+* Authentication
+* Permalinks
+* Caching and collecting assets from Strapi
 
 ## Install
 
@@ -44,6 +51,10 @@ This works for the following collection *Photo* in Strapi:
 | Image   | Media |
 | Comment | Text  |
 
+### Authentication
+
+To access non Public collections (and by default all Strapi collections are non Public) you must to generate a token inside your strapi instance and set it as enviromental variable `STRAPI_TOKENa`.
+
 ## Usage
 
 This plugin provides the `strapi` template variable. This template provides access to the collections defined in the configuration.  
@@ -71,6 +82,8 @@ layout: default
   {%- endif -%}
 </div>
 ```
+
+### Attributes
 
 All object's data you can access through ``` {{ page.document.strapi_attributes }}```. This plugin also introduces new filter asset_url which perform downloading the asset into the assets folder and provides correct url. Thanks for this you have copies of your assets locally without extra dependency on Strapi ```_layouts/photo.html```:
 

@@ -23,7 +23,8 @@ module Jekyll
         uri = URI("#{@site.endpoint}/api#{path}")
         # Get entries
         Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
-        response = Net::HTTP.get_response(uri)
+        # response = Net::HTTP.get_response(uri)
+        response = strapi_request(uri)
         # Check response code
         if response.code == "200"
           _result = JSON.parse(response.body, object_class: OpenStruct)
@@ -42,7 +43,8 @@ module Jekyll
           # During the iteration we pull the whole document using populate=*
           path_document =         path = "/#{@collection_name}/#{document.id}"
           uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{document.id}?populate=*")
-          _document_response = Net::HTTP.get_response(uri_document)
+          # _document_response = Net::HTTP.get_response(uri_document)
+          _document_response = strapi_request(uri_document)
           document_response = JSON.parse(_document_response.body)
           document.strapi_attributes = document_response['data']["attributes"]
           document.url = @site.strapi_link_resolver(collection_name, document)
