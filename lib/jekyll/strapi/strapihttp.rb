@@ -12,11 +12,7 @@ def strapi_request(url)
 
     if strapi_token.empty?
         Jekyll.logger.info "STRAPI_TOKEN not set, non Authenticated request."
-    else
-
     end
     Jekyll.logger.info "Jekyll StrapiHttp:", "Fetching entries from #{uri} using headers: #{headers.keys}"
-
-
     Net::HTTP.get_response(uri, headers)
 end

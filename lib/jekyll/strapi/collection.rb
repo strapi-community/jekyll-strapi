@@ -39,7 +39,7 @@ module Jekyll
           document.type = collection_name
           document.collection = collection_name
           document.id ||= document._id
-          document.title = document.attributes.Title
+          # document.title = document.attributes.Title
           # During the iteration we pull the whole document using populate=*
           path_document =         path = "/#{@collection_name}/#{document.id}"
           uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{document.id}?populate=*")
