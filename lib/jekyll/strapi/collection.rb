@@ -30,7 +30,11 @@ module Jekyll
           _result = JSON.parse(response.body, object_class: OpenStruct)
           result = _result.data 
         elsif response.code == "401"
-          raise "The Strapi server sent a error with the following status: #{response.code}. Please make sure you authorized the API access in the Users & Permissions section of the Strapi admin panel."
+          raise "The Strapi server sent a error with the following status: 401. Please make sure that your credentials are correct or that you have access to the API."
+        elsif response.code == "403"
+          raise "The Strapi server sent a error with the following status: 403. Please provide STRAPI_TOKEN or allow public access for find and findOne actions."
+        elsif response.code == "403"
+          raise "The Strapi server sent a error with the following status: 404. Please make sure that name of your collection is correct."
         else
           raise "The Strapi server sent a error with the following status: #{response.code}. Please make sure it is correctly running."
         end
@@ -39,7 +43,10 @@ module Jekyll
           document.type = collection_name
           document.collection = collection_name
           document.id ||= document._id
+
+          # It seems that there is no default 'title' attribute in the returned data
           # document.title = document.attributes.Title
+
           # During the iteration we pull the whole document using populate=*
           path_document =         path = "/#{@collection_name}/#{document.id}"
           uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{document.id}?populate=*")
