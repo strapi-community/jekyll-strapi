@@ -53,7 +53,7 @@ This works for the following collection *Photo* in Strapi:
 
 ### Authentication
 
-To access non Public collections (and by default all Strapi collections are non Public) you must to generate a token inside your strapi instance and set it as enviromental variable `STRAPI_TOKENa`.
+To access non Public collections (and by default all Strapi collections are non Public) you must to generate a token inside your strapi instance and set it as enviromental variable `STRAPI_TOKEN`.
 
 ## Usage
 
