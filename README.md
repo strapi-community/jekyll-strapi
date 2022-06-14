@@ -55,6 +55,8 @@ This works for the following collection *Photo* in Strapi:
 
 To access non Public collections (and by default all Strapi collections are non Public) you must to generate a token inside your strapi instance and set it as enviromental variable `STRAPI_TOKEN`.
 
+It is recommended that you will use new Content API tokens for this task: https://strapi.io/blog/a-beginners-guide-to-authentication-and-authorization-in-strapi 
+
 ## Usage
 
 This plugin provides the `strapi` template variable. This template provides access to the collections defined in the configuration.  
