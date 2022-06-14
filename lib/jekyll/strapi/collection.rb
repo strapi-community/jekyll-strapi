@@ -22,7 +22,7 @@ module Jekyll
         path = "/#{@config['type'] || @collection_name}?_limit=10000"
         uri = URI("#{@site.endpoint}/api#{path}")
         # Get entries
-        Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
+        # Jekyll.logger.info "Jekyll Strapi:", "Fetching entries from #{uri}"
         # response = Net::HTTP.get_response(uri)
         response = strapi_request(uri)
         # Check response code
