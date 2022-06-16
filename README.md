@@ -59,7 +59,7 @@ It is recommended that you will use new Content API tokens for this task: https:
 
 ## Usage
 
-This plugin provides the `strapi` template variable. This template provides access to the collections defined in the configuration.  
+This plugin provides the `strapi` template variable. This template provides access to the collections defined in the configuration. 
 
 ### Using Collections
 
