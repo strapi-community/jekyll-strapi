@@ -77,7 +77,7 @@ layout: default
   <ul>
     {%- for photo in strapi.collections.photos -%}
     <li>
-      <a href="{{ photo.url }}">Title: {{ photo.title }}</a>
+      <a href="{{ photo.url }}">Title: {{ photo.strapi_attributes.Title }}</a>
     </li>
     {%- endfor -%}
   </ul>
