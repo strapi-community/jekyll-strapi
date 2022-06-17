@@ -3,3 +3,4 @@
 *.gem
 .jekyll-cache
 .env
+Gemfile.lock
