@@ -4,7 +4,6 @@
 
 layout: home
 ---
-# Welcome! 
 
 jekyll-strapi    is a Jekyll plugin to generate static sites using Strapi 4 headless cms. 
 
