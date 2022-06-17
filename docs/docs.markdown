@@ -183,3 +183,11 @@ python3 -m http.server
 ```
 
 and opening [http://localhost:8000](http://localhost:8000) in your browser.
+
+## Deployed example - demo
+
+Here you can see page from previously example deployed to GitHub pages:
+
+[https://jekyll-strapi-v4-example.bluszcz.net/](https://jekyll-strapi-v4-example.bluszcz.net/)
+
+using following GitHub repository: [https://github.com/bluszcz/jekyll-strapi-v4-example.github.io/](https://github.com/bluszcz/jekyll-strapi-v4-example.github.io/)
