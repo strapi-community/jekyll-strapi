@@ -8,7 +8,7 @@ permalink: /docs/
 
 ## Portfolio
 
-In this example we are creating very simply Photography portfolio page, where user can upload a photo with a title and a simply description.
+In this example, we are creating a very simple Photography portfolio page, where users can upload a photo with a title and a simple description.
 
 ### Strapi Configuration
 
@@ -34,7 +34,7 @@ cd my-project-photo
 yarn run develop
 ```
 
-Now you should have reachable your Strapi instance here [http://localhost:1337/](http://localhost:1337/).
+Now you should have reachable Strapi instance here [http://localhost:1337/](http://localhost:1337/).
 
 
 #### Collection setup
