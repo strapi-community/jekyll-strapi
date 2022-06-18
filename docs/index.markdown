@@ -25,18 +25,18 @@ jekyll-strapi    is a Jekyll plugin to generate static sites using Strapi 4 head
 
 ## Family/friends blog with recipes
 
-Group of friends or family members would like to setup a blog with recipes. They can deploy one instance ([Strapi recommends some hosting](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/deployment.html)), create few collections and start work together. They can store files in Git repository and With the help of CI/CD - deploy when the new entries appears.  
+A group of friends or family members would like to set up a blog with recipes. They can deploy one instance ([Strapi recommends some hosting](https://docs.strapi.io/developer-docs/latest/setup-deployment-guides/deployment.html)), create a few collections, and start work together. They can store files in Git repository and With the help of CI/CD - deploy when the new entries appear.
 
 
 ## Personal blog/portfolio
 
-This setup assumes Strapi running locally on your laptop, where you creates content of your personal blog and portfolio. You run Jekyll to render the pages and deploy it to Heroku, Gitlab/Github pages or similar service.
+This setup assumes Strapi running locally on your laptop, where you create the content of your personal blog and portfolio. You run Jekyll to render the pages and deploy them to Heroku, Gitlab/Github pages, or similar services.
 
 ## Multinational company
 
 ![image](/assets/images/jekyll-strapi-ng.drawio.png)
 
-Let's image a company with online presence in several countries. There would be one Strapi4 instance (can be hosted in private cloud) with several users "editors" from various countries. Each of them would have access to only set of Collections where they would maintain all the data. Then, each country runs its own version jekyll-strapi-ng and generates necessary static pages which can be easily deployed. Thanks for scallable design of jekyll-strapi-ng you can generate pages from Collections containing a LOT of data.
+Let’s imagine a company with an online presence in several countries. There would be one Strapi4 instance (which can be hosted in a private cloud) with several users “editors” from various countries. Each of them would have access to the only set of Collections where they would maintain all the data. Then, each country runs its version jekyll-strapi-ng and generates necessary static pages which can be easily deployed. Thanks to the scalable design of jekyll-strapi-ng you can generate pages from Collections containing a LOT of data. 
 
 
 
