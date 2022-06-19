@@ -4,3 +4,4 @@
 .jekyll-cache
 .env
 Gemfile.lock
+rdoc
