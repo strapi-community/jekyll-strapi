@@ -4,9 +4,7 @@
 
 require "test/unit"
  
-class TestSimpleNumber < Test::Unit::TestCase
- 
-
+class TestSimpleHello < Test::Unit::TestCase
   def setup
     # SetUp
   end
@@ -15,7 +13,7 @@ class TestSimpleNumber < Test::Unit::TestCase
     # TearDown
   end
 
-  def test_simple
+  def test_rake
     assert_equal(4, 4)
     assert_equal(6, 6)
   end

@@ -2,6 +2,10 @@ require "net/http"
 require "ostruct"
 require "json"
 
+
+
+
+
 module Jekyll
   module Strapi
     class StrapiCollection
@@ -11,30 +15,42 @@ module Jekyll
         @site = site
         @collection_name = collection_name
         @config = config
+        Jekyll.logger.debug "Jekyll Collection init:" "#{site.config} #{collection_name} #{config}"
       end
 
       def generate?
         @config['output'] || false
       end
 
-      def each
-        # Initialize the HTTP query
-        path = "/#{@config['type'] || @collection_name}?_limit=10000"
+      def get_data
+        # path = "/#{@config['type'] || @collection_name}?_limit=10000"
+        # This seems be not working anymore:
+        # https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest-api.html#api-parameters
+        # and pagination is now done in following way:
+        # https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest/sort-pagination.html#pagination-by-page
+        path = "/#{@config['type'] || @collection_name}"
         uri = URI("#{@site.endpoint}/api#{path}")
-        Jekyll.logger.debug "StrapiCollection main:" "#{collection_name} #{uri}"
-        # Let's use StrapiHTTP :)
+        Jekyll.logger.debug "StrapiCollection get_document:" "#{collection_name} #{uri}"
         response = strapi_request(uri)
-        data = response.data
+        response.data
+      end
+
+      def get_document(did)
+        uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{did}?populate=*")
+        Jekyll.logger.debug "StrapiCollection iterating uri_document:" "#{uri_document}"
+        strapi_request(uri_document)
+        # document
+      end
+
+      def each
+        data = get_data
         data.each do |document|
+          Jekyll.logger.debug "StrapiCollection iterating over document:" "#{collection_name} #{document.id}"
           document.type = collection_name
           document.collection = collection_name
           document.id ||= document._id
-          Jekyll.logger.debug "StrapiCollection iterating over document:" "#{collection_name} #{document.id}"
-          uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{document.id}?populate=*")
-          Jekyll.logger.debug "StrapiCollection iterating uri_document:" "#{uri_document}"
-
-          document_response = strapi_request(uri_document)
-          # We will keep attributes in strapi_attributes
+          document_response = get_document(document.id)
+          # We will keep all the attributes in strapi_attributes
           document.strapi_attributes = document_response['data']["attributes"]
           document.url = @site.strapi_link_resolver(collection_name, document)
         end

@@ -5,7 +5,6 @@ require "json"
 def strapi_request(url)
     uri = URI(url)
     req = Net::HTTP::Get.new(uri)
-
     strapi_token = ENV['STRAPI_TOKEN']
     if strapi_token==nil
         Jekyll.logger.info "STRAPI_TOKEN not set, non Authenticated request."
@@ -15,7 +14,6 @@ def strapi_request(url)
             'Authorization'=>"Bearer #{strapi_token}"
         }
         req['Authorization'] = "Bearer #{strapi_token}"
-
     end
     Jekyll.logger.info "Jekyll StrapiHTTP:", "Fetching entries from #{uri} using headers: #{headers.keys}"
     response = Net::HTTP.get_response(uri, headers)

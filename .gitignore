@@ -5,3 +5,4 @@
 .env
 Gemfile.lock
 rdoc
+_tmp_assets
