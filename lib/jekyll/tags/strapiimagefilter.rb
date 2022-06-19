@@ -19,6 +19,9 @@ module Jekyll
       def asset_url(input)
         assets_path = "assets" # TODO: to figure our in which conditions it can change
         strapi_endpoint = @context.registers[:site].config['strapi']['endpoint']
+        Jekyll.logger.info "StrapiImageFilter strapi_endpoint:" "#{strapi_endpoint}"
+        Jekyll.logger.info "StrapiImageFilter input:" "#{input}"
+
         uri_path = "#{strapi_endpoint}#{input['url']}"
         if not Dir.exist?('_tmp_assets')
           # TODO: Check if there is not ability to overwrite from the _config
