@@ -21,6 +21,7 @@ module Jekyll
         # Initialize the HTTP query
         path = "/#{@config['type'] || @collection_name}?_limit=10000"
         uri = URI("#{@site.endpoint}/api#{path}")
+        Jekyll.logger.debug "StrapiCollection main:" "#{collection_name} #{uri}"
         # Let's use StrapiHTTP :)
         response = strapi_request(uri)
         data = response.data
@@ -28,7 +29,10 @@ module Jekyll
           document.type = collection_name
           document.collection = collection_name
           document.id ||= document._id
+          Jekyll.logger.debug "StrapiCollection iterating over document:" "#{collection_name} #{document.id}"
           uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{document.id}?populate=*")
+          Jekyll.logger.debug "StrapiCollection iterating uri_document:" "#{uri_document}"
+
           document_response = strapi_request(uri_document)
           # We will keep attributes in strapi_attributes
           document.strapi_attributes = document_response['data']["attributes"]
