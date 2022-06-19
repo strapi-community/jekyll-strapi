@@ -12,58 +12,58 @@ require 'liquid/template'
 # will improve in time - more modular.
 
 module Jekyll
-    module Strapi
-      class StrapiCollectionMock
-        # attr_accessor :collection_name, :config
-  
-        def initialize
-          @config_site = {"source"=>"/home/bluszcz/Dev/ssg/my-app-develop", "destination"=>"/home/bluszcz/Dev/ssg/my-app-develop/_site", "collections_dir"=>"", "cache_dir"=>".jekyll-cache", "plugins_dir"=>"_plugins", "layouts_dir"=>"_layouts", "data_dir"=>"_data", "includes_dir"=>"_includes", "collections"=>{"posts"=>{"output"=>true, "permalink"=>"/:categories/:year/:month/:day/:title:output_ext"}}, "safe"=>false, "include"=>[".htaccess"], "exclude"=>[".sass-cache", ".jekyll-cache", "gemfiles", "Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/"], "keep_files"=>[".git", ".svn"], "encoding"=>"utf-8", "markdown_ext"=>"markdown,mkdown,mkdn,mkd,md", "strict_front_matter"=>false, "show_drafts"=>nil, "limit_posts"=>0, "future"=>false, "unpublished"=>false, "whitelist"=>[], "plugins"=>["jekyll-feed", "jekyll-strapi"], "markdown"=>"kramdown", "highlighter"=>"rouge", "lsi"=>false, "excerpt_separator"=>"\n\n", "incremental"=>false, "detach"=>false, "port"=>"4000", "host"=>"127.0.0.1", "baseurl"=>"", "show_dir_listing"=>false, "permalink"=>"date", "paginate_path"=>"/page:num", "timezone"=>nil, "quiet"=>false, "verbose"=>true, "defaults"=>[], "liquid"=>{"error_mode"=>"warn", "strict_filters"=>false, "strict_variables"=>false}, "kramdown"=>{"auto_ids"=>true, "toc_levels"=>[1, 2, 3, 4, 5, 6], "entity_output"=>"as_char", "smart_quotes"=>"lsquo,rsquo,ldquo,rdquo", "input"=>"GFM", "hard_wrap"=>false, "guess_lang"=>true, "footnote_nr"=>1, "show_warnings"=>false}, "title"=>"Your awesome title", "description"=>"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.", "url"=>"", "theme"=>"minima", "strapi"=>{"endpoint"=>"http://localhost:1337", "collections"=>{"photos"=>{"permalink"=>"/photos/:id/", "layout"=>"photo.html", "output"=>true}}}, "serving"=>false}
-          @collection_name = "photos"
-          @config = '{"permalink"=>"/photos/:id/", "layout"=>"photo.html", "output"=>true}'
-          @site = Jekyll::Site.new(@config_site)
+  module Strapi
+    class StrapiCollectionMock
+      # attr_accessor :collection_name, :config
 
-          Jekyll.logger.info "Jekyll MOCK Collection init:" "#{@site} #{@collection_name} #{@config}"
+      def initialize
+        @config_site = {"source"=>"/home/bluszcz/Dev/ssg/my-app-develop", "destination"=>"/home/bluszcz/Dev/ssg/my-app-develop/_site", "collections_dir"=>"", "cache_dir"=>".jekyll-cache", "plugins_dir"=>"_plugins", "layouts_dir"=>"_layouts", "data_dir"=>"_data", "includes_dir"=>"_includes", "collections"=>{"posts"=>{"output"=>true, "permalink"=>"/:categories/:year/:month/:day/:title:output_ext"}}, "safe"=>false, "include"=>[".htaccess"], "exclude"=>[".sass-cache", ".jekyll-cache", "gemfiles", "Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/"], "keep_files"=>[".git", ".svn"], "encoding"=>"utf-8", "markdown_ext"=>"markdown,mkdown,mkdn,mkd,md", "strict_front_matter"=>false, "show_drafts"=>nil, "limit_posts"=>0, "future"=>false, "unpublished"=>false, "whitelist"=>[], "plugins"=>["jekyll-feed", "jekyll-strapi"], "markdown"=>"kramdown", "highlighter"=>"rouge", "lsi"=>false, "excerpt_separator"=>"\n\n", "incremental"=>false, "detach"=>false, "port"=>"4000", "host"=>"127.0.0.1", "baseurl"=>"", "show_dir_listing"=>false, "permalink"=>"date", "paginate_path"=>"/page:num", "timezone"=>nil, "quiet"=>false, "verbose"=>true, "defaults"=>[], "liquid"=>{"error_mode"=>"warn", "strict_filters"=>false, "strict_variables"=>false}, "kramdown"=>{"auto_ids"=>true, "toc_levels"=>[1, 2, 3, 4, 5, 6], "entity_output"=>"as_char", "smart_quotes"=>"lsquo,rsquo,ldquo,rdquo", "input"=>"GFM", "hard_wrap"=>false, "guess_lang"=>true, "footnote_nr"=>1, "show_warnings"=>false}, "title"=>"Your awesome title", "description"=>"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.", "url"=>"", "theme"=>"minima", "strapi"=>{"endpoint"=>"http://localhost:1337", "collections"=>{"photos"=>{"permalink"=>"/photos/:id/", "layout"=>"photo.html", "output"=>true}}}, "serving"=>false}
+        @collection_name = "photos"
+        @config = '{"permalink"=>"/photos/:id/", "layout"=>"photo.html", "output"=>true}'
+        @site = Jekyll::Site.new(@config_site)
+
+        Jekyll.logger.info "Jekyll MOCK Collection init:" "#{@site} #{@collection_name} #{@config}"
+      end
+
+      def generate?
+        @config['output'] || false
+      end
+
+      def get_data
+          file = File.read('test/source/_data/photos.json')
+          response = JSON.parse(file, object_class: OpenStruct)
+          Jekyll.logger.info  "STRAPI TEST RESPONSE:" "#{response}"
+          response.data
+      end
+
+      def get_document(did)
+          file = File.read('test/source/_data/photo.01.json')
+          response = JSON.parse(file, object_class: OpenStruct)
+          Jekyll.logger.debug "StrapiCollection GET_DOCUMENT:" "#{response} #{did}"
+          response
+      end
+
+      def each
+        data = get_data
+        data.each do |document|
+          ##
+          # This should matach what is inside collection.rb
+          # TODO: make it modular co same code can be reused
+          Jekyll.logger.debug "StrapiCollection iterating over document:" "#{@collection_name} #{document.id}"
+          document.type = @collection_name
+          document.collection = @collection_name
+          document.id ||= document._id
+          document_response = get_document(document.id)
+          # We will keep all the attributes in strapi_attributes
+          document.strapi_attributes = document_response['data']["attributes"]
+          Jekyll.logger.info "STRAPI COLLECTION MOCK:" "#{document}"
+          document.url = @site.strapi_link_resolver(@collection_name, document)
         end
-  
-        def generate?
-          @config['output'] || false
-        end
-  
-        def get_data
-            file = File.read('test/source/_data/photos.json')
-            response = JSON.parse(file, object_class: OpenStruct)
-            Jekyll.logger.info  "STRAPI TEST RESPONSE:" "#{response}"
-            response.data
-        end
-  
-        def get_document(did)
-            file = File.read('test/source/_data/photo.01.json')
-            response = JSON.parse(file, object_class: OpenStruct)
-            Jekyll.logger.debug "StrapiCollection GET_DOCUMENT:" "#{response} #{did}"
-            response
-        end
-  
-        def each
-          data = get_data
-          data.each do |document|
-            ##
-            # This should matach what is inside collection.rb
-            # TODO: make it modular co same code can be reused
-            Jekyll.logger.debug "StrapiCollection iterating over document:" "#{@collection_name} #{document.id}"
-            document.type = @collection_name
-            document.collection = @collection_name
-            document.id ||= document._id
-            document_response = get_document(document.id)
-            # We will keep all the attributes in strapi_attributes
-            document.strapi_attributes = document_response['data']["attributes"]
-            Jekyll.logger.info "STRAPI COLLECTION MOCK:" "#{document}"
-            document.url = @site.strapi_link_resolver(@collection_name, document)
-          end
-          data.each {|x| yield(x)}
-        end
+        data.each {|x| yield(x)}
       end
     end
   end
+end
 
 ##
 # This code is working, but is very messy. It is late,

@@ -25,7 +25,7 @@ module Jekyll
         @dir = @collection.config['output_dir'] || collection.collection_name
         # Default file name, can be overwritten by permalink frontmatter setting
         @name = "#{document.id}.html"
-        filename_to_read = File.join(base, "_layouts"), @collection.config['layout']
+        # filename_to_read = File.join(base, "_layouts"), @collection.config['layout']
 
         self.process(@name)
         self.read_yaml(File.join(base, "_layouts"), @collection.config['layout'])
