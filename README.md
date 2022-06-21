@@ -6,6 +6,8 @@
 * Authentication
 * Permalinks
 * Caching and collecting assets from Strapi
+* Added UnitTests
+* Documentation in Jekyll format
 
 ## Install
 
