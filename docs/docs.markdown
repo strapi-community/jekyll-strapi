@@ -134,6 +134,7 @@ Then in `_layouts` directory create two files, `home.html`:
 ---
 layout: default
 ---
+{% raw %}
 <div class="home">
   <h1 class="page-heading">Photos</h1>
   {%- if strapi.collections.photos.size > 0 -%}
@@ -146,6 +147,7 @@ layout: default
   </ul>
   {%- endif -%}
 </div>
+{% endraw %}
 ```
 
 and `photo.html`:
@@ -154,13 +156,15 @@ and `photo.html`:
 ---
 layout: default
 ---
-
+{% raw %}
 <div class="home">
   <h1 class="page-heading">{{ page.strapi_attributes.TestDescription }}</h1>
   <h2>{{ page.document.strapi_attributes.Title }}</h2>
   <p>{{ page.document.strapi_attributes.Comment }}</p>
   <img src="{{ page.document.strapi_attributes.Image.data.attributes.formats.thumbnail| asset_url }}"/>
 </div>
+{% endraw %}
+
 ```
 
 Now you must to set enviromental variable with auth token (you need to use previously saved token here):
