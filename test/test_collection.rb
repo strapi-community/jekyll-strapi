@@ -11,6 +11,36 @@ require 'liquid/template'
 # Okay, so there is a lot of DRY (Do Repeat Yourself) - but it is working and code
 # will improve in time - more modular.
 
+
+##
+# Monkey patching of the Down module to allow
+# smooth execution of the filter during the UnitTests
+
+module Down
+  module_function
+
+  class Down
+    VERSION = 0
+    class ConnectionError
+    end
+  end
+
+  def download(*args, **options, &block)
+    Jekyll.logger.info "STRAPI TESTS:" "MonkeyPatch Down::download"
+  end
+
+  def open(*args, **options, &block)
+    Jekyll.logger.info "STRAPI TESTS:" "MonkeyPatch Down::open"
+  end
+
+  def backend(value = nil)
+    Jekyll.logger.info "STRAPI TESTS:" "MonkeyPatch Down::backend"
+  end
+end
+
+##
+# Some 'mocks', likely to be rewritten
+
 module Jekyll
   module Strapi
     class StrapiCollectionMock
@@ -94,10 +124,7 @@ class TestCreateStrapiCollection < Test::Unit::TestCase
         @site = Jekyll::Site.new(@config_site)
         # @template.render!(@context,  {registers:{:site=>"v", :b=>"aa", :page=>{"document"=>@drop}, :config=>{}}}
         a = @template.render!({"document"=>@drop}, {registers:{:site=>@site, :b=>"aa", :page=>{"document"=>@drop}, :config=>{}}})
-    
-    
         # @template.render!({}, registers={:site=>"v", :b=>"aa", :page=>{"document"=>@drop}, :config=>{}})
-    
     
         assert_equal(a, "/assets/thumbnail_NoRight.JPG")
     end
