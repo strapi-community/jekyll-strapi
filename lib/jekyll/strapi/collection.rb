@@ -28,15 +28,14 @@ module Jekyll
         # https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest-api.html#api-parameters
         # and pagination is now done in following way:
         # https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest/sort-pagination.html#pagination-by-page
-        path = "/#{@config['type'] || @collection_name}"
-        uri = URI("#{@site.endpoint}/api#{path}")
+        uri = URI("#{@site.endpoint}/api/#{endpoint}")
         Jekyll.logger.debug "StrapiCollection get_document:" "#{collection_name} #{uri}"
         response = strapi_request(uri)
         response.data
       end
 
       def get_document(did)
-        uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{did}?populate=*")
+        uri_document = URI("#{@site.endpoint}/api/#{endpoint}/#{did}?populate=*")
         Jekyll.logger.debug "StrapiCollection iterating uri_document:" "#{uri_document}"
         strapi_request(uri_document)
         # document
@@ -55,6 +54,10 @@ module Jekyll
           document.url = @site.strapi_link_resolver(collection_name, document)
         end
         data.each {|x| yield(x)}
+      end
+
+      def endpoint
+        @config['type'] || @collection_name
       end
     end
   end
