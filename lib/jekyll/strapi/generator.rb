@@ -43,6 +43,7 @@ module Jekyll
         # }
         my_hash =       {
           :id       => @document.id.to_s,
+          :slug     => @document.attributes.slug
         }
         Utils.deep_merge_hashes(my_hash, super)
       end
