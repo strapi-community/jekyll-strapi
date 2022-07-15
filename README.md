@@ -39,6 +39,10 @@ strapi:
             # type: photos
             # Permalink used to generate the output files (eg. /articles/:id).
             permalink: /photos/:id/
+            # Parameters
+            parameters:
+              sort: title:asc
+              pagination[pageSize]: 10
             # Layout file for this collection
             layout: photo.html
             # Generate output files or not (default: false)
@@ -57,11 +61,11 @@ This works for the following collection *Photo* in Strapi:
 
 To access non Public collections (and by default all Strapi collections are non Public) you must to generate a token inside your strapi instance and set it as enviromental variable `STRAPI_TOKEN`.
 
-It is recommended that you will use new Content API tokens for this task: https://strapi.io/blog/a-beginners-guide-to-authentication-and-authorization-in-strapi 
+It is recommended that you will use new Content API tokens for this task: https://strapi.io/blog/a-beginners-guide-to-authentication-and-authorization-in-strapi
 
 ## Usage
 
-This plugin provides the `strapi` template variable. This template provides access to the collections defined in the configuration. 
+This plugin provides the `strapi` template variable. This template provides access to the collections defined in the configuration.
 
 ### Using Collections
 
@@ -102,4 +106,23 @@ layout: default
   <p>{{ page.document.strapi_attributes.Comment }}</p>
   <img src="{{ page.document.strapi_attributes.Image.data.attributes.formats.thumbnail| asset_url }}"/>
 </div>
+```
+
+### Request parameters
+
+Define your request parameters in config files (check configuration).
+
+If you want to add custom logic use custom_path_params method. You can use it by create _plugins/filename.rb.
+
+```ruby
+module Jekyll
+  module Strapi
+    class StrapiCollection
+      def custom_path_params
+        # ex. for multilanguage plugin you might want get request by page lang
+        "&locale=#{@site.config["lang"]}"
+      end
+    end
+  end
+end
 ```
