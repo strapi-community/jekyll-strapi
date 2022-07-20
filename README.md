@@ -39,10 +39,12 @@ strapi:
             # type: photos
             # Permalink used to generate the output files (eg. /articles/:id).
             permalink: /photos/:id/
-            # Parameters
+            # Parameters (optional)
             parameters:
               sort: title:asc
               pagination[pageSize]: 10
+            # Populate page (optional, default "*")
+            # populate: "*"
             # Layout file for this collection
             layout: photo.html
             # Generate output files or not (default: false)

@@ -35,7 +35,7 @@ module Jekyll
       end
 
       def get_document(did)
-        uri_document = URI("#{@site.endpoint}/api/#{endpoint}/#{did}?populate=*")
+        uri_document = URI("#{@site.endpoint}/api/#{endpoint}/#{did}?populate=#{populate}")
         Jekyll.logger.debug "StrapiCollection iterating uri_document:" "#{uri_document}"
         strapi_request(uri_document)
         # document
@@ -59,7 +59,11 @@ module Jekyll
       def endpoint
         @config['type'] || @collection_name
       end
-      
+
+      def populate
+        @config["populate"] || "*"
+      end
+
       def path_params
         string = "?"
         return_params = false
