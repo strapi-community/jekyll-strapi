@@ -28,15 +28,14 @@ module Jekyll
         # https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest-api.html#api-parameters
         # and pagination is now done in following way:
         # https://docs.strapi.io/developer-docs/latest/developer-resources/database-apis-reference/rest/sort-pagination.html#pagination-by-page
-        path = "/#{@config['type'] || @collection_name}"
-        uri = URI("#{@site.endpoint}/api#{path}")
+        uri = URI("#{@site.endpoint}/api/#{endpoint}#{path_params}")
         Jekyll.logger.debug "StrapiCollection get_document:" "#{collection_name} #{uri}"
         response = strapi_request(uri)
         response.data
       end
 
       def get_document(did)
-        uri_document = URI("#{@site.endpoint}/api/#{collection_name}/#{did}?populate=*")
+        uri_document = URI("#{@site.endpoint}/api/#{endpoint}/#{did}?populate=#{populate}")
         Jekyll.logger.debug "StrapiCollection iterating uri_document:" "#{uri_document}"
         strapi_request(uri_document)
         # document
@@ -55,6 +54,40 @@ module Jekyll
           document.url = @site.strapi_link_resolver(collection_name, document)
         end
         data.each {|x| yield(x)}
+      end
+
+      def endpoint
+        @config['type'] || @collection_name
+      end
+
+      def populate
+        @config["populate"] || "*"
+      end
+
+      def path_params
+        string = "?"
+        return_params = false
+
+        if @config["parameters"]
+          return_params = true
+
+          @config["parameters"].each do |k, v|
+            string += "&#{k}=#{v}"
+          end
+        end
+
+        if custom_path_params.length != 0
+          return_params = true
+
+          string += custom_path_params
+        end
+
+        return_params ? string : ""
+      end
+
+      def custom_path_params
+        # Define custom logic in your _plugins/file_name.rb
+        ""
       end
     end
   end

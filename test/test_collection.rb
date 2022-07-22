@@ -11,6 +11,12 @@ require 'liquid/template'
 # Okay, so there is a lot of DRY (Do Repeat Yourself) - but it is working and code
 # will improve in time - more modular.
 
+## Helper methods
+def setup_collection
+  @config_site = {"source"=>"#{Dir.getwd}", "destination"=>"#{Dir.getwd}/_site", "collections_dir"=>"", "cache_dir"=>".jekyll-cache", "plugins_dir"=>"_plugins", "layouts_dir"=>"_layouts", "data_dir"=>"_data", "includes_dir"=>"_includes", "collections"=>{"posts"=>{"output"=>true, "permalink"=>"/:categories/:year/:month/:day/:title:output_ext"}}, "safe"=>false, "include"=>[".htaccess"], "exclude"=>[".sass-cache", ".jekyll-cache", "gemfiles", "Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/"], "keep_files"=>[".git", ".svn"], "encoding"=>"utf-8", "markdown_ext"=>"markdown,mkdown,mkdn,mkd,md", "strict_front_matter"=>false, "show_drafts"=>nil, "limit_posts"=>0, "future"=>false, "unpublished"=>false, "whitelist"=>[], "plugins"=>["jekyll-feed", "jekyll-strapi"], "markdown"=>"kramdown", "highlighter"=>"rouge", "lsi"=>false, "excerpt_separator"=>"\n\n", "incremental"=>false, "detach"=>false, "port"=>"4000", "host"=>"127.0.0.1", "baseurl"=>"", "show_dir_listing"=>false, "permalink"=>"date", "paginate_path"=>"/page:num", "timezone"=>nil, "quiet"=>false, "verbose"=>true, "defaults"=>[], "liquid"=>{"error_mode"=>"warn", "strict_filters"=>false, "strict_variables"=>false}, "kramdown"=>{"auto_ids"=>true, "toc_levels"=>[1, 2, 3, 4, 5, 6], "entity_output"=>"as_char", "smart_quotes"=>"lsquo,rsquo,ldquo,rdquo", "input"=>"GFM", "hard_wrap"=>false, "guess_lang"=>true, "footnote_nr"=>1, "show_warnings"=>false}, "title"=>"Your awesome title", "description"=>"Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.", "url"=>"", "theme"=>"minima", "strapi"=>{"endpoint"=>"http://localhost:1337", "collections"=>{"posts"=>{"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true}}}, "serving"=>false}
+  @site = Jekyll::Site.new(@config_site)
+  @collection_name = "posts"
+end
 
 ##
 # Monkey patching of the Down module to allow
@@ -108,12 +114,12 @@ class TestCreateStrapiCollection < Test::Unit::TestCase
         Jekyll.logger.info "STRAPI-Jekyll TEST document:" "#{@document}"
         @drop = Jekyll::Strapi::StrapiDocumentDrop.new(@document)
         Jekyll.logger.info "STRAPI-Jekyll TEST drop:" "#{@drop}"
-        
+
         @filter = Object.new.extend(Jekyll::StrapiImageFilter)
-        @template = Liquid::Template.parse("{{ document.strapi_attributes.Image.data.attributes.formats.thumbnail  |asset_url}}") 
+        @template = Liquid::Template.parse("{{ document.strapi_attributes.Image.data.attributes.formats.thumbnail  |asset_url}}")
         # @template.render!(@info, {registers:{:site=>"a", :b=>"aa", :page=>{"document"=>@drop}, :config=>{}}})
         @context = Liquid::Context.new()
-        @context['document'] = @drop    
+        @context['document'] = @drop
         # a = @filter.asset_url(@drop)
     end
 
@@ -125,7 +131,67 @@ class TestCreateStrapiCollection < Test::Unit::TestCase
         # @template.render!(@context,  {registers:{:site=>"v", :b=>"aa", :page=>{"document"=>@drop}, :config=>{}}}
         a = @template.render!({"document"=>@drop}, {registers:{:site=>@site, :b=>"aa", :page=>{"document"=>@drop}, :config=>{}}})
         # @template.render!({}, registers={:site=>"v", :b=>"aa", :page=>{"document"=>@drop}, :config=>{}})
-    
+
         assert_equal(a, "/assets/thumbnail_NoRight.JPG")
     end
+end
+
+class TestStrapiCollectionEndpoint < Test::Unit::TestCase
+  def setup
+    setup_collection
+  end
+
+  def test_default
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_equal("posts", @collection.endpoint)
+  end
+
+  def test_given
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true, "type"=>"other_posts"}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_equal("other_posts", @collection.endpoint)
+  end
+end
+
+class TestStrapiCollectionPopulate < Test::Unit::TestCase
+  def setup
+    setup_collection
+  end
+
+  def test_default
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_equal("*", @collection.populate)
+  end
+
+  def test_given
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true, "populate"=>"deep"}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_equal("deep", @collection.populate)
+  end
+end
+
+class TestStrapiCollectionPathParams < Test::Unit::TestCase
+  def setup
+    setup_collection
+  end
+
+  def test_default
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_equal("", @collection.path_params)
+  end
+
+  def test_given
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true, "parameters"=>{"sort"=>"publicationDate:desc"}}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_equal("?&sort=publicationDate:desc", @collection.path_params)
+  end
 end
