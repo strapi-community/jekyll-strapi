@@ -39,6 +39,9 @@ strapi:
             # type: photos
             # Permalink used to generate the output files (eg. /articles/:id).
             permalink: /photos/:id/
+            # Permalinks defined for different locales
+            permalinks:
+              pl: "/zdjecia/:id"
             # Parameters (optional)
             parameters:
               sort: title:asc
