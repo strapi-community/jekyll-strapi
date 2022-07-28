@@ -2,7 +2,7 @@
 
 This plugin is based on the [jekyll-strapi](https://github.com/strapi-community/jekyll-strapi/) plugin. 
 
-![](deer-jekyll-strapi-4.png.png?raw=true)
+![](deer-jekyll-strapi-4.png?raw=true)
 
 ## Features
 
