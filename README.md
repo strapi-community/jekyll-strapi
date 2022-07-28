@@ -5,6 +5,7 @@ This plugin is based on the [jekyll-strapi](https://github.com/strapi-community/
 ![](deer-jekyll-strapi-4.png?raw=true)
 
 Q: Why the Deer for logo?
+
 A: Every project deserves to have the cute deer as a logo.
 
 ## Features
