@@ -1,6 +1,7 @@
 require 'jekyll'
 require 'jekyll/strapi/strapihttp'
 require 'jekyll/strapi/collection'
+require 'jekyll/strapi/collection_permalink'
 require 'jekyll/strapi/drops'
 require 'jekyll/tags/strapiimagefilter'
 require "test/unit"
@@ -193,5 +194,39 @@ class TestStrapiCollectionPathParams < Test::Unit::TestCase
     @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
 
     assert_equal("?&sort=publicationDate:desc", @collection.path_params)
+  end
+end
+
+class TestStrapiCollectionPermalinkParams < Test::Unit::TestCase
+  def setup
+    setup_collection
+
+    config = {"permalink"=>"/blog/:slug/", "permalinks"=>{"pl"=>"/poradnik/:slug/"}, "layout"=>"post.html", "output"=>true}
+    collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, config)
+
+    no_permalink_config = {"layout"=>"post.html", "output"=>true}
+    no_permalink_collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, no_permalink_config)
+
+    @permalink = Jekyll::Strapi::StrapiCollectionPermalink.new(collection: collection)
+    @permalink_pl = Jekyll::Strapi::StrapiCollectionPermalink.new(collection: collection, lang: "pl")
+    @no_permalink = Jekyll::Strapi::StrapiCollectionPermalink.new(collection: no_permalink_collection)
+  end
+
+  def test_directory
+    assert_equal("posts", @permalink.directory)
+    assert_equal("poradnik", @permalink_pl.directory)
+    assert_equal("posts", @no_permalink.directory)
+  end
+
+  def test_exist?
+    assert @permalink.exist?
+    assert @permalink_pl.exist?
+    assert_false @no_permalink.exist?
+  end
+
+  def test_to_s
+    assert_equal("/blog/:slug/", @permalink.to_s)
+    assert_equal("/poradnik/:slug/", @permalink_pl.to_s)
+    assert_nil(@no_permalink.to_s)
   end
 end

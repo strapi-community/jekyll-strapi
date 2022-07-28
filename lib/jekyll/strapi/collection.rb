@@ -60,6 +60,10 @@ module Jekyll
         @config['type'] || @collection_name
       end
 
+      def permalink
+        @permalink ||= StrapiCollectionPermalink.new(collection: self, lang: @site.lang)
+      end
+
       def populate
         @config["populate"] || "*"
       end

@@ -22,15 +22,31 @@ module Jekyll
         @collection = collection
         @document = document
 
-        @dir = @collection.config['output_dir'] || collection.collection_name
+        @site.lang = @document.attributes.locale
+
+        @dir = @collection.config['output_dir'] || collection.permalink.directory
+
+        url = Jekyll::URL.new(
+          :placeholders => {
+            :id => document.id.to_s,
+            :uid => document.uid,
+            :slug => document.attributes.slug,
+            :type => document.attributes.type,
+            :date => document.attributes.date,
+            :title => document.title
+          },
+          permalink: collection.permalink.to_s
+        )
+
         # Default file name, can be overwritten by permalink frontmatter setting
-        @name = "#{document.id}.html"
+        file_name = url.to_s.split("/").last
+        @name = "#{file_name}.html"
         # filename_to_read = File.join(base, "_layouts"), @collection.config['layout']
 
         self.process(@name)
         self.read_yaml(File.join(base, "_layouts"), @collection.config['layout'])
-        if @collection.config.key? 'permalink'
-          self.data['permalink'] = @collection.config['permalink']
+        if @collection.permalink.exist?
+          self.data['permalink'] = @collection.permalink.to_s
         end
 
         self.data['document'] = StrapiDocumentDrop.new(@document)
