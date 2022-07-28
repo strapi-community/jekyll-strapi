@@ -1,4 +1,6 @@
-# jekyll-strapi reboot
+# jekyll-strapi-4
+
+This plugin is based on the [jekyll-strapi](https://github.com/strapi-community/jekyll-strapi/) plugin. 
 
 ## Features
 

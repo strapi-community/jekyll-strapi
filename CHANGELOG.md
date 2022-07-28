@@ -1,3 +1,13 @@
+1.0.0
+
+* Release in Ruby Gems as jekyll-strapi-4
+
+0.4.3.1-dev
+
+* Translation for permalinks
+* Slugs
+* Custom parameters
+
 0.4.2-dev
 
 * GitHub Package
