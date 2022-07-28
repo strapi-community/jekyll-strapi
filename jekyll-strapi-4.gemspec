@@ -3,7 +3,7 @@ require "jekyll/strapi/version"
 
 Gem::Specification.new do |spec|
   spec.version = Jekyll::Strapi::VERSION
-  spec.homepage = "https://github.com/strapi/jekyll-strapi"
+  spec.homepage = "https://github.com/bluszcz/jekyll-strapi-4"
   spec.authors = ["Strapi Solutions", "Rafał Zawadzki", "Michał Krajewski"]
   spec.email = ["bluszcz@bluszcz.net"]
   spec.files = %W(README.md LICENSE) + Dir["lib/**/*"]
