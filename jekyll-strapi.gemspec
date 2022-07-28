@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.email = ["bluszcz@bluszcz.net"]
   spec.files = %W(README.md LICENSE) + Dir["lib/**/*"]
   spec.summary = "Strapi.io integration for Jekyll"
-  spec.name = "jekyll-strapi-v4"
+  spec.name = "jekyll-strapi-4"
   spec.license = "MIT"
   spec.require_paths = ["lib"]
   spec.description = spec.description = <<-DESC
