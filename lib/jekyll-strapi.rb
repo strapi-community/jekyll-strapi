@@ -1,4 +1,5 @@
 require 'jekyll/strapi/strapihttp'
+require 'jekyll/strapi/collection_permalink'
 require 'jekyll/strapi/collection'
 require 'jekyll/strapi/drops'
 require 'jekyll/strapi/generator'

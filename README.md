@@ -47,6 +47,9 @@ strapi:
             # type: photos
             # Permalink used to generate the output files (eg. /articles/:id).
             permalink: /photos/:id/
+            # Permalinks defined for different locales
+            permalinks:
+              pl: "/zdjecia/:id"
             # Parameters (optional)
             parameters:
               sort: title:asc
@@ -135,4 +138,30 @@ module Jekyll
     end
   end
 end
+```
+
+### Permalinks
+
+When you have a multi-language content, you might want generate a proper url based on different patterns, for example:
+| Language | permalink pattern | example |
+| ----------- | ----------- | - |
+| en | /image/:slug |yourdomain.com/image/orange/ |
+| es | /imagen/:slug | yourdomain.com/imagen/naranja/ |
+| pl | /zdjecie/:slug | yourdomain.com/zdjecie/pomarancza/ |
+
+In that case you have to
+1. set locales [on request parameters](#request-parameters),
+2. set permalinks patterns [on _config.yml](#configuration).
+
+When you create permalinks, set default permalink and optionals permalinks.
+
+```yaml
+strapi:
+  collections:
+    photos:
+      permalink: /image/:slug/
+      permalinks:
+        es: /imagen/:slug
+        pl: /zdjecia/:slug
+
 ```

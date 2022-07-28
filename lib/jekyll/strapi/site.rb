@@ -1,6 +1,8 @@
 module Jekyll
   # Add helper methods for dealing with Strapi to the Site class
   class Site
+    attr_accessor :lang
+
     def strapi
       return nil unless has_strapi?
     end
@@ -25,7 +27,7 @@ module Jekyll
     def strapi_link_resolver(collection = nil, document = nil)
       return "/" unless collection != nil and @config['strapi']['collections'][collection]['permalink'] != nil
       url = Jekyll::URL.new(
-        :template => @config['strapi']['collections'][collection]['permalink'],
+        :template => url_template(collection),
         :placeholders => {
           :id => document.id.to_s,
           :uid => document.uid,
@@ -41,6 +43,14 @@ module Jekyll
 
     def strapi_collection(collection_name)
       strapi_collections[collection_name]
+    end
+
+    def url_template(collection)
+      permalink = @config['strapi']['collections'][collection]['permalink']
+      permalinks = @config['strapi']['collections'][collection]['permalinks']
+
+      return permalink unless permalinks && permalinks[lang]
+      "/#{lang}#{permalinks[lang]}"
     end
   end
 end
