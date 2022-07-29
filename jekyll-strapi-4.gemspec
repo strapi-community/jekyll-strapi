@@ -1,5 +1,5 @@
 $:.unshift(File.expand_path("../lib", __FILE__))
-require "jekyll/strapi/version"
+require "jekyll/strapi4/version"
 
 Gem::Specification.new do |spec|
   spec.version = Jekyll::Strapi::VERSION
