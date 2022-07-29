@@ -19,17 +19,17 @@ A: Every project deserves to have the cute deer as a logo.
 
 ## Install
 
-Add the "jekyll-strapi" gem to your Gemfile:
+Add the "jekyll-strapi-4" gem to your Gemfile:
 
 ```
-gem "jekyll-strapi"
+gem "jekyll-strapi-4"
 ```
 
-Then add "jekyll-strapi" to your plugins in `_config.yml`:
+Then add "jekyll-strapi-4" to your plugins in `_config.yml`:
 
 ```
 plugins:
-    - jekyll-strapi
+    - jekyll-strapi-4
 ```
 
 ## Configuration
