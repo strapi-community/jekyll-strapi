@@ -81,7 +81,7 @@ Currently new version plugins is being develop only in this repo and it is not a
 
 ```
 MAIN_PATH=`pwd`
- git clone https://github.com/bluszcz/jekyll-strapi.git
+ git clone https://github.com/bluszcz/jekyll-strapi-4.git
  cd jekyll-strapi
  gem build
  cd $MAIN_PATH
@@ -91,12 +91,12 @@ This is will a plugin which you will install later
 
 ### Jekyll configuration
 
-Add `jekyll-strapi` to the plugins in `_config.yml`:
+Add `jekyll-strapi-4` to the plugins in `_config.yml`:
 
 ```
 plugins:
   - jekyll-feed
-  - jekyll-strapi
+  - jekyll-strapi-4
 ```
 
 and following at the end of `_config.yml`:

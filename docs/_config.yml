@@ -18,14 +18,14 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: jekyll-strapi
+title: jekyll-strapi-4
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Jekyll plugin to get the content from Strapi v4.
 #baseurl: "/jekyll-strapi" # the subpath of your site, e.g. /blog
 url: "https://bluszcz.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: strapijs
-github_username:  strapi
+twitter_username: jekyllrb
+github_username:  bluszcz
 
 # Build settings
 theme: minima
