@@ -1,5 +1,5 @@
 module Jekyll
   module Strapi
-    VERSION = "0.1.2"
+    VERSION = "1.0.12"
   end
 end
