@@ -48,9 +48,13 @@ module Jekyll
           document.type = collection_name
           document.collection = collection_name
           document.id ||= document._id
-          document_response = get_document(document.id)
-          # We will keep all the attributes in strapi_attributes
-          document.strapi_attributes = document_response['data']["attributes"]
+          if single_request?
+            document.strapi_attributes = document.attributes
+          else
+            document_response = get_document(document.id)
+            # We will keep all the attributes in strapi_attributes
+            document.strapi_attributes = document_response['data']["attributes"]
+          end
           document.url = @site.strapi_link_resolver(collection_name, document)
         end
         data.each {|x| yield(x)}
@@ -87,6 +91,10 @@ module Jekyll
         end
 
         return_params ? string : ""
+      end
+
+      def single_request?
+        @config["single_request"] == true
       end
 
       def custom_path_params
