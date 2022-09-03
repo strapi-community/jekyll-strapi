@@ -1,6 +1,6 @@
 # jekyll-strapi-4
 
-This plugin is based on the [jekyll-strapi](https://github.com/strapi-community/jekyll-strapi/) plugin. 
+This plugin works with Strapi 4 and is based on [jekyll-strapi](https://github.com/strapi-community/jekyll-strapi/tree/v0.1.2) plugin for Strapi 3.
 
 ![](deer-jekyll-strapi-4.png?raw=true)
 
@@ -58,6 +58,8 @@ strapi:
             # populate: "*"
             # Layout file for this collection
             layout: photo.html
+            # Single request for collection, default false
+            single_request: true
             # Generate output files or not (default: false)
             output: true
 ```
@@ -139,6 +141,19 @@ module Jekyll
   end
 end
 ```
+
+### Single request
+
+When you request for a collection it makes a collection request and collection resources request. When you have a small collection like testimonials you might not make n+1 requests but only one. In that case use single_request: true in your _config file.
+
+```yaml
+strapi:
+  collections:
+    photos:
+      single_request: true
+```
+
+You can always add to your parameters populate parameter to get additional data in your collection request.
 
 ### Permalinks
 
