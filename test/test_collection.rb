@@ -177,6 +177,33 @@ class TestStrapiCollectionPopulate < Test::Unit::TestCase
   end
 end
 
+class TestStrapiCollectionSingleRequest < Test::Unit::TestCase
+  def setup
+    setup_collection
+  end
+
+  def test_default
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_false @collection.single_request?
+  end
+
+  def test_given_false
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true, "single_request"=>false}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_false @collection.single_request?
+  end
+
+  def test_given_true
+    @config = {"permalink"=>"/blog/:slug/", "layout"=>"post.html", "output"=>true, "single_request"=>true}
+    @collection = Jekyll::Strapi::StrapiCollection.new(@site, @collection_name, @config)
+
+    assert_true @collection.single_request?
+  end
+end
+
 class TestStrapiCollectionPathParams < Test::Unit::TestCase
   def setup
     setup_collection
