@@ -1,6 +1,6 @@
 # jekyll-strapi-4
 
-This plugin is based on the [jekyll-strapi](https://github.com/strapi-community/jekyll-strapi/) plugin.
+This plugin works with Strapi 4 and is based on [jekyll-strapi](https://github.com/strapi-community/jekyll-strapi/tree/v0.1.2) plugin for Strapi 3.
 
 ![](deer-jekyll-strapi-4.png?raw=true)
 
