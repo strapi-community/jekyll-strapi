@@ -37,6 +37,7 @@ plugins:
 ```yaml
 strapi:
     # Your API endpoint (optional, default to http://localhost:1337)
+    # Can be overridden (or set) by the STRAPI_ENDPOINT environment variable.
     endpoint: http://localhost:1337
     # Collections, key is used to access in the strapi.collections
     # template variable
