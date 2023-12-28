@@ -21,7 +21,7 @@ module Jekyll
     end
 
     def endpoint
-      has_strapi? and @config['strapi']['endpoint'] or "http://localhost:1337"
+      has_strapi? and ENV['STRAPI_ENDPOINT'] or @config['strapi']['endpoint'] or "http://localhost:1337"
     end
 
     def strapi_link_resolver(collection = nil, document = nil)
